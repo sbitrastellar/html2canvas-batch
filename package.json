@@ -5,7 +5,7 @@
   "module": "dist/html2canvas-batch.esm.js",
   "typings": "dist/types/index.d.ts",
   "browser": "dist/html2canvas-batch.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": {
     "name": "yorickshan",
     "email": "yorickshan@gmail.com",
