@@ -1,11 +1,11 @@
 {
-  "name": "html2canvas-pro",
+  "name": "html2canvas-batch",
   "description": "Screenshots with JavaScript. Next generation!",
-  "main": "dist/html2canvas-pro.js",
-  "module": "dist/html2canvas-pro.esm.js",
+  "main": "dist/html2canvas-batch.js",
+  "module": "dist/html2canvas-batch.esm.js",
   "typings": "dist/types/index.d.ts",
-  "browser": "dist/html2canvas-pro.js",
-  "version": "1.5.12",
+  "browser": "dist/html2canvas-batch.js",
+  "version": "1.0.2",
   "author": {
     "name": "yorickshan",
     "email": "yorickshan@gmail.com",
@@ -19,10 +19,10 @@
   "engines": {
     "node": ">=16.0.0"
   },
-  "homepage": "https://yorickshan.github.io/html2canvas-pro/",
+  "homepage": "https://github.com/sbitrastellar/html2canvas-pro/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yorickshan/html2canvas-pro"
+    "url": "https://github.com/sbitrastellar/html2canvas-pro"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
@@ -97,7 +97,7 @@
     "prebuild": "rimraf dist/ && rimraf build/ && mkdirp dist && mkdirp build",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && npm run build:create-reftest-list && npm run build:testrunner && npm run build:minify",
     "build:testrunner": "rollup -c tests/rollup.config.ts",
-    "build:minify": "uglifyjs --compress --comments /^!/ -o dist/html2canvas-pro.min.js --mangle -- dist/html2canvas-pro.js",
+    "build:minify": "uglifyjs --compress --comments /^!/ -o dist/html2canvas-batch.min.js --mangle -- dist/html2canvas-batch.js",
     "build:reftest-result-list": "ts-node scripts/create-reftest-result-list.ts",
     "build:create-reftest-list": "ts-node scripts/create-reftest-list.ts tests/reftests/ignore.txt build/reftests.ts",
     "release": "sh scripts/version-upgrade.sh",

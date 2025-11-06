@@ -1,6 +1,6 @@
 /*!
- * html2canvas-pro 1.5.12 <https://yorickshan.github.io/html2canvas-pro/>
- * Copyright (c) 2024-present yorickshan and html2canvas-pro contributors
+ * html2canvas-batch 1.0.2 <https://github.com/sbitrastellar/html2canvas-pro/>
+ * Copyright (c) 2024-present yorickshan and html2canvas-batch contributors
  * Released under MIT License
  */
 (function (global, factory) {
@@ -9300,4 +9300,4 @@
     Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
-//# sourceMappingURL=html2canvas-pro.js.map
+//# sourceMappingURL=html2canvas-batch.js.map

@@ -41,7 +41,7 @@ Batch Implementation (New, Independent)
 
 ### Original (Single Element)
 ```typescript
-import html2canvas from 'html2canvas-pro';
+import html2canvas from 'html2canvas-batch';
 
 const canvas = await html2canvas(element);
 // Returns: HTMLCanvasElement
@@ -49,7 +49,7 @@ const canvas = await html2canvas(element);
 
 ### Batch (Multiple Elements)
 ```typescript
-import { html2canvasBatch } from 'html2canvas-pro';
+import { html2canvasBatch } from 'html2canvas-batch';
 
 const canvases = await html2canvasBatch([el1, el2, el3]);
 // Returns: HTMLCanvasElement[]
@@ -88,7 +88,7 @@ const canvases = await html2canvas([el1, el2, el3]);
 
 **After**:
 ```typescript
-import { html2canvasBatch } from 'html2canvas-pro';
+import { html2canvasBatch } from 'html2canvas-batch';
 const canvases = await html2canvasBatch([el1, el2, el3]);
 ```
 

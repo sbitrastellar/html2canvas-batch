@@ -39,7 +39,7 @@ This implementation creates a separate `Html2CanvasBatch` class that extends htm
 
 ### Single Element (Original)
 ```typescript
-import html2canvas from 'html2canvas-pro';
+import html2canvas from 'html2canvas-batch';
 
 const element = document.getElementById('myElement');
 const canvas = await html2canvas(element);
@@ -49,7 +49,7 @@ const imageData = canvas.toDataURL('image/png');
 
 ### Batch Processing (New)
 ```typescript
-import { html2canvasBatch } from 'html2canvas-pro';
+import { html2canvasBatch } from 'html2canvas-batch';
 
 const elements = [el1, el2, el3];
 const canvases = await html2canvasBatch(elements);
@@ -62,7 +62,7 @@ canvases.forEach((canvas, index) => {
 
 ### Using the Class
 ```typescript
-import { Html2CanvasBatch } from 'html2canvas-pro';
+import { Html2CanvasBatch } from 'html2canvas-batch';
 
 const elements = [el1, el2, el3];
 const canvases = await Html2CanvasBatch.render(elements, options);
@@ -109,7 +109,7 @@ const canvases = await html2canvas([el1, el2, el3]);
 
 **After** (using batch class):
 ```typescript
-import { html2canvasBatch } from 'html2canvas-pro';
+import { html2canvasBatch } from 'html2canvas-batch';
 const canvases = await html2canvasBatch([el1, el2, el3]);
 ```
 
@@ -131,13 +131,13 @@ export { html2canvasBatch, Html2CanvasBatch } from './html2canvas-batch';
 ### Option 2: Separate import (recommended for separation)
 ```typescript
 // Users import from separate file
-import { html2canvasBatch } from 'html2canvas-pro/html2canvas-batch';
+import { html2canvasBatch } from 'html2canvas-batch/html2canvas-batch';
 ```
 
 ### Option 3: Re-export from main (current)
 ```typescript
 // Users can import both from main
-import html2canvas, { html2canvasBatch } from 'html2canvas-pro';
+import html2canvas, { html2canvasBatch } from 'html2canvas-batch';
 ```
 
 ## Benefits for Forking
@@ -151,13 +151,13 @@ import html2canvas, { html2canvasBatch } from 'html2canvas-pro';
 
 ### Test Original Implementation
 ```typescript
-import html2canvas from 'html2canvas-pro';
+import html2canvas from 'html2canvas-batch';
 // Test single element rendering
 ```
 
 ### Test Batch Implementation
 ```typescript
-import { html2canvasBatch } from 'html2canvas-pro';
+import { html2canvasBatch } from 'html2canvas-batch';
 // Test array rendering
 ```
 

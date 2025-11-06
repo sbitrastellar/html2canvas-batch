@@ -1,6 +1,6 @@
 /*!
- * html2canvas-pro 1.5.12 <https://yorickshan.github.io/html2canvas-pro/>
- * Copyright (c) 2024-present yorickshan and html2canvas-pro contributors
+ * html2canvas-batch 1.0.2 <https://github.com/sbitrastellar/html2canvas-pro/>
+ * Copyright (c) 2024-present yorickshan and html2canvas-batch contributors
  * Released under MIT License
  */
 /******************************************************************************
@@ -9288,4 +9288,4 @@ var parseBackgroundColor = function (context, element, backgroundColorOverride) 
 };
 
 export { Html2CanvasBatch, html2canvas as default, html2canvasBatch };
-//# sourceMappingURL=html2canvas-pro.esm.js.map
+//# sourceMappingURL=html2canvas-batch.esm.js.map

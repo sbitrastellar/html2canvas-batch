@@ -1,6 +1,6 @@
 # Configuration Options
 
-This document outlines all available configuration options for html2canvas-pro. These options allow you to customize the rendering behavior, image handling, and output of the canvas.
+This document outlines all available configuration options for html2canvas-batch. These options allow you to customize the rendering behavior, image handling, and output of the canvas.
 
 ## Basic Configuration
 
@@ -10,7 +10,7 @@ This document outlines all available configuration options for html2canvas-pro. 
 | backgroundColor | `#ffffff` | Canvas background color, if none is specified in DOM. Set `null` for transparent | `"rgba(0,0,0,0.5)"` |
 | canvas | `null` | Existing `canvas` element to use as a base for drawing on | `document.createElement('canvas')` |
 | logging | `true` | Enable logging for debug purposes | `false` |
-| removeContainer | `true` | Whether to cleanup the cloned DOM elements html2canvas-pro creates temporarily | `false` |
+| removeContainer | `true` | Whether to cleanup the cloned DOM elements html2canvas-batch creates temporarily | `false` |
 | scale | `window.devicePixelRatio` | The scale to use for rendering. Defaults to the browser's device pixel ratio | `2` |
 | width | `Element` width | The width of the `canvas` | `1200` |
 | height | `Element` height | The height of the `canvas` | `800` |
@@ -44,7 +44,7 @@ Options that control how the content is rendered to the canvas.
 
 ## Element Exclusion
 
-If you wish to exclude certain `Element`s from getting rendered, you can add a `data-html2canvas-ignore` attribute to those elements and html2canvas-pro will exclude them from the rendering.
+If you wish to exclude certain `Element`s from getting rendered, you can add a `data-html2canvas-ignore` attribute to those elements and html2canvas-batch will exclude them from the rendering.
 
 ```html
 <div>

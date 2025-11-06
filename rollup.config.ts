@@ -8,7 +8,7 @@ const pkg = require('./package.json');
 
 const banner = `/*!
  * ${pkg.name} ${pkg.version} <${pkg.homepage}>
- * Copyright (c) 2024-present yorickshan and html2canvas-pro contributors
+ * Copyright (c) 2024-present yorickshan and html2canvas-batch contributors
  * Released under ${pkg.license} License
  */`;
 
