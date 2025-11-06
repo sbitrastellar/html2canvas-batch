@@ -7,7 +7,11 @@ import { COLORS } from '../css/types/color';
 
 jest.mock('../core/logger');
 jest.mock('../css/layout/bounds');
-jest.mock('../dom/document-cloner');
+jest.mock('../dom/document-cloner', () => {
+    return {
+        DocumentCloner: jest.fn()
+    };
+});
 jest.mock('../dom/node-parser', () => {
     return {
         isBodyElement: () => false,
@@ -68,7 +72,17 @@ describe('Html2CanvasBatch', () => {
             } as unknown as ForeignObjectRenderer;
         });
 
-        DocumentCloner.destroy = jest.fn().mockReturnValue(true);
+        (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
+            return {
+                clonedReferenceElement: undefined,
+                toIFrame: jest.fn().mockResolvedValue({
+                    parentNode: document.createElement('div'),
+                    removeChild: jest.fn()
+                } as unknown as HTMLIFrameElement),
+                destroy: jest.fn()
+            };
+        });
+        (DocumentCloner as unknown as { destroy: jest.Mock }).destroy = jest.fn().mockReturnValue(true);
     });
 
     describe('html2canvasBatch function', () => {
@@ -101,7 +115,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -140,7 +154,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -163,7 +177,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -185,7 +199,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -206,7 +220,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -227,7 +241,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -248,7 +262,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -281,7 +295,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -312,7 +326,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -345,7 +359,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -375,7 +389,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -417,7 +431,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -436,7 +450,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
@@ -444,14 +458,16 @@ describe('Html2CanvasBatch', () => {
         });
 
         it('should reject when unable to calculate bounds', async () => {
+            // This test verifies that when boundsList ends up empty (no valid bounds calculated),
+            // the function rejects with the appropriate error message.
+            // We achieve this by having cloned elements that all get filtered out (null/undefined)
             const elements = [createMockElement('el1')];
 
-            // Mock parseBounds to return null/undefined
-            const parseBounds = jest.requireMock('../dom/node-parser').parseBounds;
-            parseBounds.mockReturnValue(null);
+            // Create elements that will be filtered out (null elements)
+            const nullElements = [null as unknown as HTMLElement];
 
             const mockCloner = {
-                clonedReferenceElement: [createMockElement('el1')] as HTMLElement[],
+                clonedReferenceElement: nullElements,
                 toIFrame: jest.fn().mockResolvedValue({
                     parentNode: document.createElement('div'),
                     removeChild: jest.fn()
@@ -459,10 +475,12 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
+            // When all elements are null, they get filtered out (if (!el) continue),
+            // resulting in boundsList.length === 0, which triggers the error
             await expect(html2canvasBatch(elements)).rejects.toContain('Unable to calculate bounds');
         });
     });
@@ -477,12 +495,13 @@ describe('Html2CanvasBatch', () => {
 
             // Track display property changes
             clonedElements.forEach((el, index) => {
+                // Store the actual display value in a hidden property
+                const displayStore = { value: '' };
                 Object.defineProperty(el.style, 'display', {
-                    get: () => el.style.display || '',
+                    get: () => displayStore.value,
                     set: (value: string) => {
                         displayChanges.push({ index, display: value });
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        (el.style as unknown as { _display: string })._display = value;
+                        displayStore.value = value;
                     },
                     configurable: true
                 });
@@ -497,7 +516,7 @@ describe('Html2CanvasBatch', () => {
             };
 
             // Set up mock for this test - DocumentCloner is already mocked at module level
-            (DocumentCloner as jest.Mock).mockImplementation(() => {
+            (DocumentCloner as unknown as jest.Mock).mockImplementation(() => {
                 return mockCloner as unknown as DocumentCloner;
             });
 
