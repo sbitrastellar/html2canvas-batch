@@ -47,26 +47,31 @@ const IGNORE_ATTRIBUTE = 'data-html2canvas-ignore';
 
 export class DocumentCloner {
     private readonly scrolledElements: [Element, number, number][];
-    private readonly referenceElement: HTMLElement;
-    clonedReferenceElement?: HTMLElement;
+    private readonly referenceElement: HTMLElement | HTMLElement[];
+    clonedReferenceElement?: HTMLElement | HTMLElement[];
     private readonly documentElement: HTMLElement;
     private readonly counters: CounterState;
     private quoteDepth: number;
 
     constructor(
         private readonly context: Context,
-        element: HTMLElement,
+        element: HTMLElement | HTMLElement[],
         private readonly options: CloneConfigurations
     ) {
         this.scrolledElements = [];
         this.referenceElement = element;
         this.counters = new CounterState();
         this.quoteDepth = 0;
-        if (!element.ownerDocument) {
+
+        const elements = Array.isArray(element) ? element : [element];
+        const firstElement = elements[0];
+
+        if (!firstElement || !firstElement.ownerDocument) {
             throw new Error('Cloned element does not have an owner document');
         }
 
-        this.documentElement = this.cloneNode(element.ownerDocument.documentElement, false) as HTMLElement;
+        // Clone documentElement once for all elements
+        this.documentElement = this.cloneNode(firstElement.ownerDocument.documentElement, false) as HTMLElement;
     }
 
     toIFrame(ownerDocument: Document, windowSize: Bounds): Promise<HTMLIFrameElement> {
@@ -108,8 +113,15 @@ export class DocumentCloner {
 
             const referenceElement = this.clonedReferenceElement;
 
-            if (typeof referenceElement === 'undefined') {
-                return Promise.reject(`Error finding the ${this.referenceElement.nodeName} in the cloned document`);
+            if (
+                typeof referenceElement === 'undefined' ||
+                (Array.isArray(referenceElement) && referenceElement.length === 0)
+            ) {
+                const referenceElements = Array.isArray(this.referenceElement)
+                    ? this.referenceElement
+                    : [this.referenceElement];
+                const nodeNames = referenceElements.map((el) => el.nodeName).join(', ');
+                return Promise.reject(`Error finding the ${nodeNames} in the cloned document`);
             }
 
             if (documentClone.fonts && documentClone.fonts.ready) {
@@ -122,7 +134,14 @@ export class DocumentCloner {
 
             if (typeof onclone === 'function') {
                 return Promise.resolve()
-                    .then(() => onclone(documentClone, referenceElement))
+                    .then(() => {
+                        // If referenceElement is an array, call onclone for each element
+                        if (Array.isArray(referenceElement)) {
+                            referenceElement.forEach((el) => onclone(documentClone, el));
+                        } else {
+                            onclone(documentClone, referenceElement);
+                        }
+                    })
                     .then(() => iframe);
             }
 
@@ -134,9 +153,12 @@ export class DocumentCloner {
          * */
         const baseUri = documentClone.baseURI;
         documentClone.open();
-        documentClone.write(`${serializeDoctype(document.doctype)}<html></html>`);
+        documentClone.write(`${serializeDoctype(ownerDocument.doctype)}<html></html>`);
         // Chrome scrolls the parent document for some reason after the write to the cloned window???
-        restoreOwnerScroll(this.referenceElement.ownerDocument, scrollX, scrollY);
+        const referenceElements = Array.isArray(this.referenceElement)
+            ? this.referenceElement
+            : [this.referenceElement];
+        restoreOwnerScroll(referenceElements[0].ownerDocument, scrollX, scrollY);
         /**
          * Note: adoptNode() should be called AFTER documentClone.open() and close()
          *
@@ -338,8 +360,23 @@ export class DocumentCloner {
             const styleBefore = window.getComputedStyle(node, ':before');
             const styleAfter = window.getComputedStyle(node, ':after');
 
-            if (this.referenceElement === node && isHTMLElementNode(clone)) {
-                this.clonedReferenceElement = clone;
+            // Check if this node matches any of the reference elements
+            const referenceElements = Array.isArray(this.referenceElement)
+                ? this.referenceElement
+                : [this.referenceElement];
+            const matchingIndex = referenceElements.indexOf(node as HTMLElement);
+            if (matchingIndex !== -1 && isHTMLElementNode(clone)) {
+                if (Array.isArray(this.referenceElement)) {
+                    // Initialize array if not already done
+                    if (!Array.isArray(this.clonedReferenceElement)) {
+                        this.clonedReferenceElement = [];
+                    }
+                    // Ensure array is large enough
+                    const clonedArray = this.clonedReferenceElement as HTMLElement[];
+                    clonedArray[matchingIndex] = clone;
+                } else {
+                    this.clonedReferenceElement = clone;
+                }
             }
             if (isBodyElement(clone)) {
                 createPseudoHideStyles(clone);
