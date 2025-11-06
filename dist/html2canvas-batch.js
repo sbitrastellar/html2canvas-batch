@@ -1,5 +1,5 @@
 /*!
- * html2canvas-batch 1.0.2 <https://github.com/sbitrastellar/html2canvas-pro/>
+ * html2canvas-batch 1.0.3 <https://github.com/sbitrastellar/html2canvas-batch/>
  * Copyright (c) 2024-present yorickshan and html2canvas-batch contributors
  * Released under MIT License
  */
@@ -6577,7 +6577,8 @@
         // Edge does not provide value for cssText
         for (var i = style.length - 1; i >= 0; i--) {
             var property = style.item(i);
-            if (ignoredStyleProperties.indexOf(property) === -1) {
+            // fix: Chrome_138 ignore custom properties
+            if (ignoredStyleProperties.indexOf(property) === -1 && !property.startsWith('--')) {
                 target.style.setProperty(property, style.getPropertyValue(property));
             }
         }
