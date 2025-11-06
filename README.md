@@ -59,6 +59,14 @@ If you want to add some features, feel free to submit PR.
 
 If you want to become a maintainer on it, please contact me.
 
+## Credits
+
+This project is a fork of [html2canvas-pro](https://github.com/yorickshan/html2canvas-pro) by [yorickshan](https://github.com/yorickshan), which is itself a fork of the original [html2canvas](https://github.com/niklasvh/html2canvas) by [niklasvh](https://github.com/niklasvh).
+
+We would like to thank:
+- [niklasvh](https://github.com/niklasvh) and all [html2canvas contributors](https://github.com/niklasvh/html2canvas/graphs/contributors) for the original work
+- [yorickshan](https://github.com/yorickshan) for the html2canvas-pro fork with additional features
+
 ## License
 
 [MIT](LICENSE).

@@ -26,3 +26,8 @@ rollup.config.ts
 .versionrc.json
 CHANGELOG.md
 tsconfig.json
+dist/**/__tests__/
+dist/**/__mocks__/
+dist/lib/
+dist/types/**/__tests__/
+dist/types/**/__mocks__/

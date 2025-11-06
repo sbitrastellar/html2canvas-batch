@@ -1,6 +1,12 @@
 MIT License
 
-Copyright (c) 2024-present yorickshan and html2canvas-batch contributors
+Copyright (c) 2024-present sbitra and html2canvas-batch contributors
+
+This project is a fork of html2canvas-pro (https://github.com/yorickshan/html2canvas-pro), 
+which is itself a fork of html2canvas (https://github.com/niklasvh/html2canvas).
+
+Original html2canvas:
+Copyright (c) 2012-2024 Niklas von Hertzen and html2canvas contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

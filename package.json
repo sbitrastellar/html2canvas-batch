@@ -7,9 +7,9 @@
   "browser": "dist/html2canvas-batch.js",
   "version": "1.0.3",
   "author": {
-    "name": "yorickshan",
-    "email": "yorickshan@gmail.com",
-    "url": "https://github.com/yorickshan"
+    "name": "sbitra",
+    "email": "sirish.bitra@gmail.com",
+    "url": "https://github.com/sbitrastellar"
   },
   "license": "MIT",
   "keywords": [
@@ -19,10 +19,13 @@
   "engines": {
     "node": ">=16.0.0"
   },
-  "homepage": "https://github.com/sbitrastellar/html2canvas-pro/",
+  "homepage": "https://github.com/sbitrastellar/html2canvas-batch/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sbitrastellar/html2canvas-pro"
+    "url": "https://github.com/sbitrastellar/html2canvas-batch"
+  },
+  "bugs": {
+    "url": "https://github.com/sbitrastellar/html2canvas-batch/issues"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
@@ -113,6 +116,7 @@
     "commitlint": "commitlint --config .commitlintrc.json -e -V",
     "tag": "sh scripts/create-tag.sh",
     "prepare": "if [ \"$SKIP_PREPARE\" != \"true\" ]; then husky install; fi",
+    "prepublishOnly": "npm run build",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
@@ -121,6 +125,17 @@
     "css-line-break": "^2.1.0",
     "text-segmentation": "^1.0.3"
   },
+  "files": [
+    "dist/html2canvas-batch.js",
+    "dist/html2canvas-batch.js.map",
+    "dist/html2canvas-batch.esm.js",
+    "dist/html2canvas-batch.esm.js.map",
+    "dist/html2canvas-batch.min.js",
+    "dist/types",
+    "LICENSE",
+    "README.md"
+  ],
+  "sideEffects": false,
   "lint-staged": {
     "{src,tests}/**/*.ts": [
       "prettier --write",
