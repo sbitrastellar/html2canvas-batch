@@ -1,0 +1,13 @@
+feat: return array of canvases for array elements with sequential processing
+
+- Return HTMLCanvasElement[] when array of elements is passed
+- Each canvas contains only one element (no overlap)
+- Implement promise-based sequential processing to reduce memory usage
+- Process elements one at a time using display: none isolation
+- Elements hidden from layout flow to prevent iframe boundary issues
+- Memory optimized: only one element's DOM tree in memory at a time
+- Maintain backward compatibility for single element rendering
+
+BREAKING CHANGE: When passing array of elements, returns array of canvases instead of single
+combined canvas. Each canvas can be used independently with toDataURL().
+

@@ -51,6 +51,7 @@ import { Renderer } from '../renderer';
 import { Context } from '../../core/context';
 import { DIRECTION } from '../../css/property-descriptors/direction';
 import { OBJECT_FIT } from '../../css/property-descriptors/object-fit';
+import { VISIBILITY } from '../../css/property-descriptors/visibility';
 
 export type RenderConfigurations = RenderOptions & {
     backgroundColor: Color | null;
@@ -980,7 +981,7 @@ export class CanvasRenderer extends Renderer {
             this.ctx.fillStyle = asString(this.options.backgroundColor);
             this.ctx.fillRect(this.options.x, this.options.y, this.options.width, this.options.height);
         }
-
+        element.styles.visibility = VISIBILITY.VISIBLE;
         const stack = parseStackingContexts(element);
 
         await this.renderStack(stack);
